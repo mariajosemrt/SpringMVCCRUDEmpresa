@@ -31,16 +31,16 @@
                 <td th:text="${empleado.genero}"></td>
                 <td th:text="${empleado.departamento.nombre}"></td>
                 <td>
-                    <a href="@{/frmActualizar/}+${empleado.id}">Actualizar</a>
-                    <a href="@{/borrar/}+${empleado.id}">Borrar</a>
-                    <a href="@{/detalles/}+${empleado.id}">Detalles</a>
+                    <a th:href="@{/frmActualizar/}+${empleado.id}">Actualizar</a>
+                    <a th:href="@{/borrar/}+${empleado.id}">Borrar</a>
+                    <a th:href="@{/detalles/}+${empleado.id}">Detalles</a>
                 </td>
             </tr>
         </tbody>
     </table>
-    
+
     <div>
-        <a href="@{/frmAltaEmpleado}">Formulario de Alta Estudiante</a>
+        <a th:href="@{/frmAltaEmpleado}">Formulario de Alta Empleado</a>
     </div>
 </body>
 </html>

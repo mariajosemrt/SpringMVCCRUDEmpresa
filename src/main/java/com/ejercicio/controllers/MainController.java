@@ -1,5 +1,6 @@
 package com.ejercicio.controllers;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -12,10 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
+import com.ejercicio.entities.Correo;
 import com.ejercicio.entities.Departamento;
 import com.ejercicio.entities.Empleado;
+import com.ejercicio.entities.Telefono;
 import com.ejercicio.services.CorreoService;
 import com.ejercicio.services.DepartamentoService;
 import com.ejercicio.services.EmpleadoService;
@@ -72,10 +74,63 @@ public class MainController {
     }
 
     /** METODO QUE RECIBE LOS DATOS PROCEDENTES DEL FORMULARIO */
-    // @PostMapping("/altaModificacionEmpleado")
-    // public String altaEmpleado(@ModelAttribute Empleado emplado,
-    //         @RequestParam(name = "numerosTelefonos") String telefonosRecibidos) {
+     @PostMapping("/altaModificacionEmpleado")
+     public String altaEmpleado(@ModelAttribute Empleado empleado,
+             @RequestParam(name = "numerosTelefonos") String telefonosRecibidos,
+             @RequestParam(name = "correos") String correosRecibidos) {
 
+        LOG.info("Telefonos recibidos" + telefonosRecibidos);
+        LOG.info("Correos recibidos" + correosRecibidos);
 
-    //         }
+        empleadoService.save(empleado);
+
+        List<String> listadoNumerosTelefonos = null;
+        List<String> listadoCorreos = null;
+
+        if(telefonosRecibidos != null) {
+
+            String[] arrayTelefonos = telefonosRecibidos.split(";");
+
+            listadoNumerosTelefonos = Arrays.asList(arrayTelefonos);
+        }    
+
+        if(listadoNumerosTelefonos != null) {
+            telefonoService.deleteByEmpleado(empleado);
+            listadoNumerosTelefonos.stream().forEach(numero -> {
+                Telefono telefonoObject = Telefono
+                .builder()
+                .numero(numero)
+                .empleado(empleado)
+                .build();
+
+            telefonoService.save(telefonoObject);
+            });
+        }
+
+        if(correosRecibidos != null) {
+
+            String[] arrayCorreos = correosRecibidos.split(",");
+
+            listadoCorreos = Arrays.asList(arrayCorreos);
+        }    
+
+        if(listadoCorreos != null) {
+            correoService.deleteByEmpleado(empleado);
+            listadoCorreos.stream().forEach(correo -> {
+                Correo correoObject = Correo
+                .builder()
+                .email(correo)
+                .empleado(empleado)
+                .build();
+
+            correoService.save(correoObject);
+            });
+        }
+
+        return "redirect:/listar";
+
+    }
+
+    /** MUESTRA EL FORMULARIO PARA ACTUALIZAR UN ESTUDIANTE */
+    // @GetMapping("/frmActualizar/{id}")
 }

@@ -9,7 +9,7 @@
 <body>
     <h1>Formulario de Alta o Modificacion de un Empleado</h1>
     
-    <form th:object="${empleado}">
+    <form th:object="${empleado}" th:action="@{/altaModificacionEmpleado}" method="post">
 
         <input type="hidden" name="id" th:value="${empleado.id}">
 
