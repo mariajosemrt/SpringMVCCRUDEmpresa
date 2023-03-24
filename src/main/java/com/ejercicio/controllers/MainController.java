@@ -79,7 +79,7 @@ public class MainController {
      @PostMapping("/altaModificacionEmpleado")
      public String altaEmpleado(@ModelAttribute Empleado empleado,
              @RequestParam(name = "numerosTelefonos") String telefonosRecibidos,
-             @RequestParam(name = "correos") String correosRecibidos) {
+             @RequestParam(name = "emailsCorreos") String correosRecibidos) {
 
         LOG.info("Telefonos recibidos" + telefonosRecibidos);
         LOG.info("Correos recibidos" + correosRecibidos);
@@ -133,7 +133,7 @@ public class MainController {
 
     }
 
-    /** MUESTRA EL FORMULARIO PARA ACTUALIZAR UN ESTUDIANTE */
+    /** MUESTRA EL FORMULARIO PARA ACTUALIZAR UN EMPLEADO */
     @GetMapping("/frmActualizar/{id}")
     public String frmActualizarEmpleado(@PathVariable(name = "id") 
     int idEmpleado, Model model) {
